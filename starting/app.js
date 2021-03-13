@@ -27,6 +27,7 @@ const products = [
 
 const app = express();
 app.set("view engine", "hbs");
+app.use(express.urlencoded({ extended: true }));
 
 // GET
 app.get("/", (req, res) => {
@@ -48,6 +49,16 @@ app.get("/products/search", (req, res) => {
 
 app.get("/products/new", (req, res) => {
   res.render("new-product");
+});
+
+app.post("/products/new", (req, res) => {
+  console.log(req.body);
+  const newProductLink = req.body.product.split(" ").join("-");
+  products.push({
+    name: req.body.product,
+    link: newProductLink,
+  });
+  res.redirect("/products");
 });
 
 // /products/jsdhgfdskjghdsfkjghfdskjh
